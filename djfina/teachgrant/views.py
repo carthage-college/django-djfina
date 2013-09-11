@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from djfina.teachgrant.forms import TeachGrantForm
+import datetime
 
 # Create your views here.
 def submitted(request):
@@ -11,10 +12,21 @@ def create(request):
 		form = TeachGrantForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect('http://google.com')
+			submitted = True
+			
+			return render(request, 'teachgrant/form.html', {
+                'form': form,
+                'year': datetime.datetime.now().year,
+                'year2': datetime.datetime.now().year + 1,
+                'submitted': submitted
+			})
 			
 			
 	else:
 		form = TeachGrantForm()
-	return render(request, 'teachgrant/form.html', {'form': form})
+	return render(request, 'teachgrant/form.html', {
+	    'form': form,
+	    'year': datetime.datetime.now().year, 
+	    'year2': datetime.datetime.now().year + 1
+	})
 

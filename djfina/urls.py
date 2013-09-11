@@ -5,8 +5,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^aiddecline/', include('djfina.aiddecline.urls')),
     url(r'^scholarship/', include('djfina.scholarship.urls')),
     url(r'^teachgrant/', include('djfina.teachgrant.urls')),
-    #url(r'^$', RedirectView.as_view(url="/adult/")),
 )

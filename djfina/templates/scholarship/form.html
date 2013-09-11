@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <link rel='stylesheet' type='text/css' href='{{static_url}}djbuis/css/base_css.css'/>
+    <script type='text/javascript'>
+    </script>
+</head>
+<body>
+    <div>
+        {% if submitted %}
+            <h2>Your form has been submitted, thank you.</h2>
+        {% endif %}
+    </div>
+    <div>
+        <div class='sidebar'>
+            <img src='http://imageshack.us/a/img651/7008/carthage1.png'></img>
+        </div>
+        <div class='mainbar'>
+            <div class='header'>
+                <text class='headertext'>Scholarship Form</text>
+            </div><br>
+            {{ form.non_field_errors }}
+            <form action='' method='post' enctype="multipart/form-data">{% csrf_token %}
+                {{ form.management_form }}
+                <text class='separator'>General information</text><hr>
+                <p>
+                    <b>{{ year }}-{{ year2 }} Private Scholarship Notification</b>
+                </p>
+                <p>
+                    We encourage students to apply for as many private scholarships as possible. Whenever the Office
+                    of Student Financial Planning (OSFP) is informed of a scholarship, we send information about that 
+                    scholarship out to the students through the Carthage email. In addition, we keep a scholarship book at the 
+                    front desk in our office that can be reviewed at any time. Lists of private scholarship websites 
+                    are available on the Financial Aid web site as well as at our front desk. We encourage students also 
+                    to investigate the scholarships available through the different departments or courses offered at 
+                    Carthage
+                </p>
+                <p>
+                    Should the student be awarded a private scholarship, Carthage requires the student to provide a copy 
+                    of the private scholarship documentation to the Office of Student Financial Planning annually. Once 
+                    we have received the Private Scholarship Notification Form and a copy of the scholarship notification 
+                    letter, we will add the scholarship amount to the student's financial aid award. The student is 
+                    responsible for making sure any and all requirements of the scholarship donor are met and that these 
+                    funds are disbursed to Carthage College
+                </p>
+                <p>
+                    If you have received notification that you will be receiving a Private Scholarship, please complete the 
+                    below information and return to the above address. <b>YOU MUST ATTACH</b> a copy of the 
+                    documentation received from the donor for each of the scholarships awarded. <b>Without this 
+                    documentation, we cannot add this scholarship to your financial aid award.</b> If you have any 
+                    questions, don't hesitate to contact the OSFP at 262-551-6001
+                </p><br>
+                <text class='separator'>Scholarship information</text><hr>
+                <table>
+                    <tr>
+                        <td><text class='fieldlabel'>Scholarship Name</text></td>
+                        <td><text class='fieldlabel'>Name of Donor<br>or Organization</text></td>
+                        <td><text class='fieldlabel'>Yearly award</text></td>
+                        <td><text class='fieldlabel'>Award is<br>available<br>until</text></td>
+                        <td><text class='fieldlabel'>Funds will<br>be sent to</text></td>
+                        <td><text class='fieldlabel'>File upload</text></td>
+                       
+                    </tr>
+                    {% for f in form %}
+                    <tr>
+                        {% for field in f %}
+                        <td>
+                            {{ field }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        {% for field in f %}
+                        <td>
+                            {% for e in field.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </table>
+                <input type="submit" value="Add" id="add" name="add"><br><br>
+                <input type='submit' value='Submit form'/>
+            </form>
+        </div>
+    </div>
+</body>
+    <script type='text/javascript'>
+    
+    </script>
+</html>

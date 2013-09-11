@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <link rel='stylesheet' type='text/css' href='{{static_url}}djbuis/css/base_css.css'/>
+    <script type='text/javascript'>
+        function validate_name(){
+            var id = document.getElementById('id_name');
+            var val = id.value;
+            var patt = new RegExp('^[a-zA-Z\']+[a-zA-Z\\s\\.\\-\']+$');
+            return patt.test(val);
+        }
+        function validate_student_id(){
+            var id = document.getElementById('id_student_id');
+            var val = id.value;
+            var patt = new RegExp('^\\d{5,7}$');
+            return patt.test(val);
+        }
+    </script>
+</head>
+<body>
+    <div>
+        {% if submitted %}
+                <h2>Your form has been submitted, thank you.</h2>
+        {% endif %}
+    </div>
+    <div>
+        <div class='sidebar'>
+            <img src='http://imageshack.us/a/img651/7008/carthage1.png'></img>
+        </div>
+        <div class='mainbar'>
+            <div class='header'>
+                <text class='headertext'>Aid Decline Form</text>
+            </div><br>
+            {{ form.non_field_errors }}
+            <form action='' method='post'>{% csrf_token %}
+                <text>
+                    <p>
+                        By filing the Free Application for Federal Student Aid (FAFSA), the student becomes eligible for several different types of self-help aid. For example, the award may contain Federal Stafford or Perkins Loans, and/or Federal Work-Study. The student is not required to accept any of this aid
+                    </p>
+                    <p>
+                        Should the student wish to decline any of the eligible aid, this form should be completed. Alternatively, a student may decide to send an email to <u>finaid@carthage.edu</u> and specify exactly what aid they wish to decline and in what dollar amount. We must recieve this notification in writing and from the student directly as they are the borrower. 
+                        Notification from a parent does not satisfy federal regulations. Should a student decline all or any portion of their federal loans, the student can reinstate the loans at any time before the end of the school year by submitted that request in writing
+                    </p>
+                </text>
+                <text class='separator'>Personal information</text><hr>
+                <table>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.student_id.label }}</text></td>
+                        <td>{{ form.student_id }}</td>
+                        <td>
+                            <img class='hidden' id='student_id_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                            <img class='hidden' id='student_id_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                            {% for e in form.student_id.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.name.label }}</text></td>
+                        <td>{{ form.name }}</td>
+                        <td>
+                            <img class='hidden' id='name_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                            <img class='hidden' id='name_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                            {% for e in form.name.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </table><br>
+                <text class='separator'>Financial declination information</text><hr>
+                <table>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.direct_sub.label }}</text></td>
+                        <td>{{ form.direct_sub }}</td>
+                        <td>
+                            {% for e in form.direct_sub.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.direct_unsub.label }}</text></td>
+                        <td>{{ form.direct_unsub }}</td>
+                        <td>
+                            {% for e in form.direct_unsub.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.perkins.label }}</text></td>
+                        <td>{{ form.perkins }}</td>
+                        <td>
+                            {% for e in form.perkins.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.work_study.label }}</text></td>
+                        <td>{{ form.work_study }}</td>
+                        <td>
+                            {% for e in form.work_study.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.other1.label }}</text></td>
+                        <td>{{ form.other1 }}</td>
+                        <td>
+                            {% for e in form.other1.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><text class='fieldlabel'>{{ form.other2.label }}</text></td>
+                        <td>{{ form.other2 }}</td>
+                        <td>
+                            {% for e in form.other2.errors %}
+                                <text class='error'>*{{ e }}</text>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </table><br><br>
+                <input type='submit' value='Submit form'/>
+            </form>
+        </div>
+    </div>
+</body>
+    <script type='text/javascript'>
+        var element = document.getElementById('id_name');
+        element.onblur = function() {
+            var n=document.getElementById('name_no');
+            var y=document.getElementById('name_yes');
+            if(!validate_name()){ 
+                n.style.display='inline'; y.style.display='none'; 
+            }
+            else {
+                n.style.display='none'; y.style.display='inline';
+            }
+        };
+        var element = document.getElementById('id_student_id');
+        element.onblur = function() {
+            var n=document.getElementById('student_id_no');
+            var y=document.getElementById('student_id_yes');
+            if(!validate_student_id()){ 
+                n.style.display='inline'; y.style.display='none'; 
+            }
+            else {
+                n.style.display='none'; y.style.display='inline';
+            }
+        };
+    </script>
+</html>
