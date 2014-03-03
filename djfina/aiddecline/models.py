@@ -18,6 +18,10 @@ class AidDeclineModel(models.Model):
 	def __unicode__(self):
 		return self.name
 		
+    class Meta:
+        verbose_name = 'Aid decline application'
+        verbose_name_plural = 'Aid decline applications'
+		
 class ProxyAidDecline(AidDeclineModel):
 	class Meta:
 		proxy = True
