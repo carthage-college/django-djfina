@@ -17,6 +17,8 @@
             var patt = new RegExp('^\\d{5,7}$');
             return patt.test(val);
         }
+        
+
     </script>
 </head>
 <body>
@@ -134,6 +136,10 @@
     </div>
 </body>
     <script type='text/javascript'>
+        document.getElementById('name_no').style.display='none';
+        document.getElementById('name_yes').style.display='none';
+        document.getElementById('student_id_no').style.display='none';
+        document.getElementById('student_id_yes').style.display='none';
         var element = document.getElementById('id_name');
         element.onblur = function() {
             var n=document.getElementById('name_no');

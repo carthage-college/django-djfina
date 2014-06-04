@@ -11,11 +11,22 @@ class TeachGrant(models.Model):
         ('new undergrad transfer students', 'New Undergrad Transfer Students'),
         ('new graduate students', 'New Graduate Students'),
     )
-    gpa_requirements = models.CharField(max_length=40, choices=GPA_REQUIREMENT_CHOICES,default='continuing undergrad and grad students')
-    undergrad_enrolled_in_grant_eligible_program = models.BooleanField()
-    grad_enrolled_in_grant_eligible_program = models.BooleanField()
-    filed_fafsa = models.BooleanField()
-    understand_conditions = models.BooleanField()
+    gpa_requirements = models.CharField(max_length=40,
+                                        choices=GPA_REQUIREMENT_CHOICES,
+                                        default='continuing undergrad and grad students',
+                                        verbose_name='Current status')
+    
+    undergrad_enrolled_in_grant_eligible_program =\
+    models.BooleanField(verbose_name="Undergraduate enrolled in a grant-eligible program")
+    
+    grad_enrolled_in_grant_eligible_program =\
+    models.BooleanField(verbose_name='Graduate enrolled in a grant-eligible program')
+    
+    filed_fafsa = models.BooleanField(verbose_name='I agree with the FAFSA conditions')
+    
+    understand_conditions = models.BooleanField(verbose_name=\
+    'I understand that if I am awarded a Federal TEACH Grant, I must do the following')
+    
     submit_date = models.DateField(auto_now_add=True)
     def __unicode__(self):
         return self.student_name

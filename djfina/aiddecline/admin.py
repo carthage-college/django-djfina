@@ -67,7 +67,7 @@ def push_to_production(modeladmin, request, queryset):
     #       messages.success(request, 'Object was moved to production!')
 
 class FormAdmin(admin.ModelAdmin):
-	readonly_fields = ('submit_date',)
-	actions = [push_to_production] #Includes the action we defined earlier in this page
-	
+    readonly_fields = ('submit_date',)
+    actions = [push_to_production] #Includes the action we defined earlier in this page
+    
 admin.site.register(AidDeclineModel, FormAdmin)

@@ -19,16 +19,14 @@ def index(request):
     if request.method == 'POST':
         formset = ScholarshipFormSet(request.POST, files=request.FILES, prefix='Sc')
         if 'add' in request.POST:
-            array=[]
-            for i in range(0,int(formset.data['Sc-TOTAL_FORMS'])):
-		        array.append({
+            array=[({
                     'scholarship_name':formset.data['Sc-%s-scholarship_name' % (i)],
                     'name_of_donor_or_organization':formset.data['Sc-%s-name_of_donor_or_organization' % (i)],
                     'yearly_award':formset.data['Sc-%s-yearly_award' % (i)],
                     'years_award_is_available':formset.data['Sc-%s-years_award_is_available' % (i)],
                     'funds_will_be_sent_to':formset.data['Sc-%s-funds_will_be_sent_to' % (i)],
                     'files':formset.data['Sc-%r-files' % (i)]
-                })
+                }) for i in range(0,int(formset.data['Sc-TOTAL_FORMS']))]
             formset = ScholarshipFormSet(prefix='Sc', initial=array)
         else:
             submitted = False
@@ -45,8 +43,8 @@ def index(request):
             })
             
     else:
-		formset = ScholarshipFormSet(prefix='Sc')
-		
+        formset = ScholarshipFormSet(prefix='Sc')
+        
     return render(request, 'scholarship/form.html', {
         'year': cur_year,
         'year2': cur_year2,

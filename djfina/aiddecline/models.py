@@ -5,13 +5,13 @@ class AidDeclineModel(models.Model):
 
     #Fields in the forms are down below
     name = models.CharField(max_length=50)
-    student_id = models.CharField(max_length=7)
-    direct_sub = models.BooleanField() #Renders as a checkbox
-    direct_unsub = models.BooleanField()
-    perkins = models.BooleanField()
-    work_study = models.BooleanField()
-    other1 = models.CharField(max_length=30, null=True, blank=True) #'null=True' can be represented as null in the database
-    other2 = models.CharField(max_length=30, null=True, blank=True) #'blank=True', this field can be left blank
+    student_id = models.CharField(max_length=7, verbose_name='ID')
+    direct_sub = models.BooleanField(verbose_name='Federal Direct Loan - Subsidized') #Renders as a checkbox
+    direct_unsub = models.BooleanField(verbose_name='Federal Direct Loan - Unsubsidized')
+    perkins = models.BooleanField(verbose_name='Federal Perkins Loan')
+    work_study = models.BooleanField(verbose_name='Federal Work-Study')
+    other1 = models.CharField(max_length=30, null=True, blank=True, verbose_name='Other') #'null=True' can be represented as null in the database
+    other2 = models.CharField(max_length=30, null=True, blank=True, verbose_name='Other') #'blank=True', this field can be left blank
     submit_date = models.DateField(auto_now_add=True) #Automatically adds the current date and is invisible on the form
 
     #How the class is represented in the admin page

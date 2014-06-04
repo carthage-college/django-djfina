@@ -4,10 +4,11 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from django.core.exceptions import ValidationError
 from django.core import validators
+import re
 
 def must_be_true(value):
-	if value == False:
-		raise ValidationError(message='Must be checked', code='not_checked')
+    if value == False:
+        raise ValidationError(message='Must be checked', code='not_checked')
 
 class TeachGrantForm(forms.ModelForm):
     
@@ -21,24 +22,24 @@ class TeachGrantForm(forms.ModelForm):
         super(TeachGrantForm, self).__init__(*args, **kwargs)
         
         #Custom labels for form fields
-        self.fields['gpa_requirements'].label = 'Current status'
-        self.fields['undergrad_enrolled_in_grant_eligible_program'].label = mark_safe("Undergraduate enrolled in a grant-eligible program")
-        self.fields['grad_enrolled_in_grant_eligible_program'].label = mark_safe('Graduate enrolled in a grant-eligible program')
-        self.fields['filed_fafsa'].label = 'I agree with the FAFSA conditions'
-        self.fields['understand_conditions'].label = 'I understand that if I am awarded a Federal TEACH Grant, I must do the following'
-        self.fields['file'].label = 'File'
+        #self.fields['gpa_requirements'].label = 'Current status'
+        #self.fields['undergrad_enrolled_in_grant_eligible_program'].label = mark_safe("Undergraduate enrolled in a grant-eligible program")
+        #self.fields['grad_enrolled_in_grant_eligible_program'].label = mark_safe('Graduate enrolled in a grant-eligible program')
+        #self.fields['filed_fafsa'].label = 'I agree with the FAFSA conditions'
+        #self.fields['understand_conditions'].label = 'I understand that if I am awarded a Federal TEACH Grant, I must do the following'
+        #self.fields['file'].label = 'File'
         
         #Custom regex validation for form fields
-        self.fields['student_name'].validators = [validators.RegexValidator(regex='^[a-zA-Z\']+[a-zA-Z\-\s\']+$',message='Invalid characters',code='bad_name')]
-        self.fields['carthage_id'].validators = [validators.RegexValidator(regex='^\d{5,7}$',message='Invalid ID',code='bad_id')]
-        self.fields['TEACH_grant_eligible_program_of_study'].validators = [validators.RegexValidator(regex='^.+$', message='Required', code='bad_TEACH')]
-        self.fields['filed_fafsa'].validators = [must_be_true] #Validation from function on top of file
-        self.fields['understand_conditions'].validators = [must_be_true]
+        #self.fields['student_name'].validators = [validators.RegexValidator(regex='^[a-zA-Z\']+[a-zA-Z\-\s\']+$',message='Invalid characters',code='bad_name')]
+        #self.fields['carthage_id'].validators = [validators.RegexValidator(regex='^\d{5,7}$',message='Invalid ID',code='bad_id')]
+        #self.fields['TEACH_grant_eligible_program_of_study'].validators = [validators.RegexValidator(regex='^.+$', message='Required', code='bad_TEACH')]
+        #self.fields['filed_fafsa'].validators = [must_be_true] #Validation from function on top of file
+        #self.fields['understand_conditions'].validators = [must_be_true]
         
         #Custom error messages for form fields
-        self.fields['carthage_id'].error_messages = {'required':'Required','invalid':'Between 5 and 7 digits'}
-        self.fields['student_name'].error_messages = {'required':'Required','invalid':'Invalid characters'}
-        self.fields['TEACH_grant_eligible_program_of_study'].error_messages = {'required':'Required','invalid':'Invalid characters'}
+        #self.fields['carthage_id'].error_messages = {'required':'Required','invalid':'Between 5 and 7 digits'}
+        #self.fields['student_name'].error_messages = {'required':'Required','invalid':'Invalid characters'}
+        #self.fields['TEACH_grant_eligible_program_of_study'].error_messages = {'required':'Required','invalid':'Invalid characters'}
 
     def clean(self):
         cleaned_data = self.cleaned_data #Grabs the clean data
@@ -62,3 +63,27 @@ class TeachGrantForm(forms.ModelForm):
                 del cleaned_data['undergrad_enrolled_in_grant_eligible_program']
             
         return cleaned_data
+    
+    def clean_student_name(self):
+        data = self.cleaned_data['student_name']
+        if not re.match(r'^[a-zA-Z\']+[a-zA-Z\-\s\']+$', data):
+            raise forms.ValidationError('Invalid characters')
+        return data
+    
+    def clean_carthage_id(self):
+        data = self.cleaned_data['carthage_id']
+        if not re.match(r'^\d{5,7}$', data):
+            raise forms.ValidationError('Invalid ID')
+        return data
+    
+    def clean_filed_fafsa(self):
+        data = self.cleaned_data['filed_fafsa']
+        if not data:
+            raise forms.ValidationError('Must be checked')
+        return data
+    
+    def clean_understand_conditions(self):
+        data = self.cleaned_data['understand_conditions']
+        if not data:
+            raise forms.ValidationError('Must be checked')
+        return data

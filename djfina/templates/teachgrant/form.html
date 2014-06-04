@@ -23,6 +23,13 @@
             var patt = new RegExp('^.+$');
             return patt.test(val);
         }
+        //set all checks and x's to be invisible till user types something into field
+        document.getElementById('carthage_id_no').style.display='none';
+        document.getElementById('carthage_id_yes').style.display='none';
+        document.getElementById('student_name_no').style.display='none';
+        document.getElementById('student_name_yes').style.display='none';
+        document.getElementById('TEACH_grant_eligible_program_of_study_no').style.display='none';
+        document.getElementById('TEACH_grant_eligible_program_of_study_no').style.display='none';
     </script>
 </head>
 <body>
@@ -203,6 +210,7 @@
                 }
             };
         }
+        //functions that validate fields and show images for ok or bad data
         element = document.getElementById('id_carthage_id');
         element.onblur = function() {
             var n=document.getElementById('carthage_id_no');
