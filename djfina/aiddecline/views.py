@@ -13,14 +13,14 @@ def index(request):
             form.save() #Save the form to the database table
             form = AidDeclineForm() #Clear out the form
             submitted = True #Boolean flag that we finished the form
-            return render(request, 'aiddecline/form.html', {
+            return render(request, 'aiddecline/design.html', {
                 'form': form,
                 'submitted': submitted
             })
             
     else:
         form = AidDeclineForm() #An unbounded form
-    return render(request, 'aiddecline/form.html', {
+    return render(request, 'aiddecline/design.html', {
         'form': form,
     })
 
