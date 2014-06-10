@@ -5,6 +5,10 @@
     <meta charset='utf-8' />
     <title></title>
     <link rel='stylesheet' type='text/css' href='{{static_url}}djbuis/css/base_css.css'/>
+    <link href="//www.carthage.edu/themes/shared/css/icons.css" type="text/css" rel="stylesheet" />
+    <link href="//www.carthage.edu/static/vendor/dashboard/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//www.carthage.edu/themes/shared/css/forms.css" rel="stylesheet" type="text/css" />
+    <link href="//www.carthage.edu/themes/shared/css/tables.css" rel="stylesheet" type="text/css" />
 {% block javascript %}
     <script type='text/javascript'>
         function validate_name(){
@@ -38,11 +42,10 @@
         </div>
         <div class='mainbar'>
             <div class='header'>
-                <text class='headertext'>Aid Decline Form</text>
+                <span class='headertext'>Aid Decline Form</span>
             </div><br>
             {{ form.non_field_errors }}
             <form action='' method='post'>{% csrf_token %}
-                <text>
                     <p>
                         By filing the Free Application for Federal Student Aid (FAFSA), the student becomes eligible for several different types of self-help aid. For example, the award may contain Federal Stafford or Perkins Loans, and/or Federal Work-Study. The student is not required to accept any of this aid
                     </p>
@@ -50,87 +53,86 @@
                         Should the student wish to decline any of the eligible aid, this form should be completed. Alternatively, a student may decide to send an email to <u>finaid@carthage.edu</u> and specify exactly what aid they wish to decline and in what dollar amount. We must recieve this notification in writing and from the student directly as they are the borrower. 
                         Notification from a parent does not satisfy federal regulations. Should a student decline all or any portion of their federal loans, the student can reinstate the loans at any time before the end of the school year by submitted that request in writing
                     </p>
-                </text>
-                <text class='separator'>Personal information</text><hr>
+                <span class='separator'>Personal information</span><hr>
                 <table>
                     <tr>
-                        <td><text class='fieldlabel'>{{ form.student_id.label }}</text></td>
+                        <td><span class='fieldlabel'>{{ form.student_id.label }}</span></td>
                         <td>{{ form.student_id }}</td>
                         <td>
                             <img class='hidden' id='student_id_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
                             <img class='hidden' id='student_id_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
                             {% for e in form.student_id.errors %}
-                                <text class='error'>*{{ e }}</text>
+                                <span class='error'>*{{ e }}</span>
                             {% endfor %}
                         </td>
                     </tr>
                     <tr>
-                        <td><text class='fieldlabel'>{{ form.name.label }}</text></td>
+                        <td><span class='fieldlabel'>{{ form.name.label }}</span></td>
                         <td>{{ form.name }}</td>
                         <td>
                             <img class='hidden' id='name_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
                             <img class='hidden' id='name_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
                             {% for e in form.name.errors %}
-                                <text class='error'>*{{ e }}</text>
+                                <span class='error'>*{{ e }}</span>
                             {% endfor %}
                         </td>
                     </tr>
                 </table><br>
-                <text class='separator'>Financial declination information</text><hr>
+                <span class='separator'>Financial declination information<span><hr>
                 <table>
                     <tr>
-                        <td><text class='fieldlabel'>{{ form.direct_sub.label }}</text></td>
+                        <td><span class='fieldlabel'>{{ form.direct_sub.label }}</span></td>
                         <td>{{ form.direct_sub }}</td>
                         <td>
                             {% for e in form.direct_sub.errors %}
-                                <text class='error'>*{{ e }}</text>
+                                <span class='error'>*{{ e }}</span>
                             {% endfor %}
                         </td>
                     </tr>
                     <tr>
-                        <td><text class='fieldlabel'>{{ form.direct_unsub.label }}</text></td>
+                        <td><span class='fieldlabel'>{{ form.direct_unsub.label }}</span></td>
                         <td>{{ form.direct_unsub }}</td>
                         <td>
                             {% for e in form.direct_unsub.errors %}
-                                <text class='error'>*{{ e }}</text>
+                                <span class='error'>*{{ e }}</span>
                             {% endfor %}
                         </td>
                     </tr>
                     <tr>
-                        <td><text class='fieldlabel'>{{ form.perkins.label }}</text></td>
+                        <td><span class='fieldlabel'>{{ form.perkins.label }}</span></td>
                         <td>{{ form.perkins }}</td>
                         <td>
                             {% for e in form.perkins.errors %}
-                                <text class='error'>*{{ e }}</text>
+                                <span class='error'>*{{ e }}</span>
                             {% endfor %}
                         </td>
                     </tr>
                     <tr>
-                        <td><text class='fieldlabel'>{{ form.work_study.label }}</text></td>
+                        <td><span class='fieldlabel'>{{ form.work_study.label }}</span></td>
                         <td>{{ form.work_study }}</td>
                         <td>
                             {% for e in form.work_study.errors %}
-                                <text class='error'>*{{ e }}</text>
+                                <span class='error'>*{{ e }}</span>
                             {% endfor %}
                         </td>
                     </tr>
                 </table>
                 <table>
                     <tr>
-                        <td><text class='fieldlabel'>{{ form.other1.label }}</text></td>
+                        <td><span class='fieldlabel'>{{ form.other1.label }}</span></td>
                         <td>{{ form.other1 }}</td>
                         <td>
                             {% for e in form.other1.errors %}
-                                <text class='error'>*{{ e }}</text>
+                                <span class='error'>*{{ e }}</span>
                             {% endfor %}
                         </td>
                     </tr>
                     <tr>
-                        <td><text class='fieldlabel'>{{ form.other2.label }}</text></td>
+                        <td><span class='fieldlabel'>{{ form.other2.label }}</span></td>
                         <td>{{ form.other2 }}</td>
                         <td>
                             {% for e in form.other2.errors %}
-                                <text class='error'>*{{ e }}</text>
+                                <span class='error'>*{{ e }}</span>
                             {% endfor %}
                         </td>
                     </tr>

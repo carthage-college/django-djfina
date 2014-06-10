@@ -5,6 +5,10 @@
     <meta charset='utf-8' />
     <title></title>
     <link rel='stylesheet' type='text/css' href='{{static_url}}djbuis/css/base_css.css'/>
+    <link href="//www.carthage.edu/themes/shared/css/icons.css" type="text/css" rel="stylesheet" />
+    <link href="//www.carthage.edu/static/vendor/dashboard/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//www.carthage.edu/themes/shared/css/forms.css" rel="stylesheet" type="text/css" />
+    <link href="//www.carthage.edu/themes/shared/css/tables.css" rel="stylesheet" type="text/css" />
     {% block javascript %}
     <script type='text/javascript'>
         function validate_carthage_id(){
@@ -31,7 +35,7 @@
         document.getElementById('student_name_no').style.display='none';
         document.getElementById('student_name_yes').style.display='none';
         document.getElementById('TEACH_grant_eligible_program_of_study_no').style.display='none';
-        document.getElementById('TEACH_grant_eligible_program_of_study_no').style.display='none';
+        document.getElementById('TEACH_grant_eligible_program_of_study_yes').style.display='none';
     </script>
     {% endblock %}
 </head>
@@ -48,61 +52,61 @@
         </div>
         <div class='mainbar'>
             <div class='header'>
-                <text class='headertext'>TEACH Grant Form</text>
+                <span class='headertext'>TEACH Grant Form</span>
             </div><br>
             {{ form.non_field_errors }}
             <form action='' method='post'>{% csrf_token %}
-                <text class='separator'>General information</text><hr>
+                <span class='separator'>General information</span><hr>
                 <p>
-                    The Federal TEACH Grant has specific eligibility and service requirements. Before completing the TEACH Grant Consideration form, you should visit the Federal TEACH Grant web site at <u>http://studentaid.ed.gov/PORTALSWebApp/students/english/teach.jsp</u> 
+                    The Federal TEACH Grant has specific eligibility and service requirements. Before completing the TEACH Grant Consideration form, you should visit the Federal TEACH Grant web site at <a href='http://studentaid.ed.gov/PORTALSWebApp/students/english/teach.jsp'>http://studentaid.ed.gov/PORTALSWebApp/students/english/teach.jsp</a>
                     If you wish to apply for consideration for this grant, you will need to:
                     <ul>
-                        <li>Complete a {{ year }}-{{ year2 }} Free Application for Federal Student Aid (FAFSA) at http://fafsa.ed.gov and provide all supporting application materials that may be required while reviewing your FAFSA.</li>
-                        <li>Sign the online Agreement to Serve (ATS) and complete the Federal TEACH Grant Entrance Counseling requirement at <u>https://teach-ats.ed.gov/ats/index.action</u></li>
+                        <li>Complete a {{ year }}-{{ year2 }} Free Application for Federal Student Aid (FAFSA) at <a href='http://fafsa.ed.gov'>http://fafsa.ed.gov</a> and provide all supporting application materials that may be required while reviewing your FAFSA.</li>
+                        <li>Sign the online Agreement to Serve (ATS) and complete the Federal TEACH Grant Entrance Counseling requirement at <a href='https://teach-ats.ed.gov/ats/index.action'>https://teach-ats.ed.gov/ats/index.action</a></li>
                     </ul>
                 </p>
-                <text class='separator'>Personal information</text><hr>
+                <span class='separator'>Personal information</span><hr>
                 <table>
                     <tr>
-                        <td><text class='fieldlabel'>{{ form.carthage_id.label }}</text></td>
+                        <td><span class='fieldlabel'>{{ form.carthage_id.label }}</span></td>
                         <td>{{ form.carthage_id }}</td>
                         <td>
                             <img class='hidden' id='carthage_id_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
                             <img class='hidden' id='carthage_id_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
                             {% for e in form.carthage_id.errors %}
-                                <text class='error'>*{{ e }}</text>
+                                <span class='error'>*{{ e }}</span>
                             {% endfor %}
                         </td>
                     </tr>
                     <tr>
-                        <td><text class='fieldlabel'>{{ form.student_name.label }}</text></td>
+                        <td><span class='fieldlabel'>{{ form.student_name.label }}</span></td>
                         <td>{{ form.student_name }}</td>
                         <td>
                             <img class='hidden' id='student_name_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
                             <img class='hidden' id='student_name_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
                             {% for e in form.student_name.errors %}
-                                <text class='error'>*{{ e }}</text>
+                                <span class='error'>*{{ e }}</span>
                             {% endfor %}
                         </td>
                     </tr>
                 </table>
                 <table>
                     <tr>
-                        <td><text class='fieldlabel'>{{ form.TEACH_grant_eligible_program_of_study.label }}</text></td>
+                        <td><span class='fieldlabel'>{{ form.TEACH_grant_eligible_program_of_study.label }}</span></td>
                         <td>{{ form.TEACH_grant_eligible_program_of_study }}</td>
                         <td>
                             <img class='hidden' id='TEACH_grant_eligible_program_of_study_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
                             <img class='hidden' id='TEACH_grant_eligible_program_of_study_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
                             {% for e in form.TEACH_grant_eligible_program_of_study.errors %}
-                                <text class='error'>*{{ e }}</text>
+                                <span class='error'>*{{ e }}</span>
                             {% endfor %}
                         </td>
                     </tr>
                 </table><br>
-                <text class='separator'>Section 1: GPA Requirement Certification</text><hr>
+                <span class='separator'>Section 1: GPA Requirement Certification</span><hr>
                 <table>
                     <tr>
-                        <td><text class='fieldlabel'>{{ form.gpa_requirements.label }}</text></td>
+                        <td><span class='fieldlabel'>{{ form.gpa_requirements.label }}</span></td>
                         <td>
                             {% for item in form.gpa_requirements %}
                                 {{ item }}<br>
@@ -110,50 +114,50 @@
                         </td>
                         <td>
                             {% for e in form.gpa_requirements.errors %}
-                                <text class='error'>*{{ e }}</text>
+                                <span class='error'>*{{ e }}</span>
                             {% endfor %}
                         </td>
                     </tr>
                 </table>
-                <text id='hidden-gpa'>
+                <span id='hidden-gpa'>
                     I certify that I have established a 3.25 overall GPA or higher at Carthage
-                </text><br><br>
-                <text class='separator'>Section 2: Program Certification</text><hr>
+                </span><br><br>
+                <span class='separator'>Section 2: Program Certification</span><hr>
                 <div id='hidden-undergrad' style='display:none;'> <!-- Needs to be hidden right off the get go -->
                     {{ form.undergrad_enrolled_in_grant_eligible_program }}
-                    <text>
+                    <span>
                         I certify that I am enrolled or accepted for enrollment as a degree-seeking student in a TEACH Grant-eligible program
-                    </text>
+                    </span>
                     {% for e in form.undergrad_enrolled_in_grant_eligible_program.errors %}
-                        <text class='error'>*{{ e }}</text>
+                        <span class='error'>*{{ e }}</span>
                     {% endfor %}
                 </div>
                 <div id='hidden-grad'>
                     {{ form.grad_enrolled_in_grant_eligible_program }}
-                    <text>
+                    <span>
                         I certify that I am enrolled or accepted for enrollment as a degree-seeking student in a TEACH Grant-eligible program
-                    </text>
+                    </span>
                     {% for e in form.grad_enrolled_in_grant_eligible_program.errors %}
-                        <text class='error'>*{{ e }}</text>
+                        <span class='error'>*{{ e }}</span>
                     {% endfor %}
                 </div>
                 <div>
                     {{ form.filed_fafsa }}
-                    <text>
+                    <span>
                         I filed or will file a Free Application for Federal Student Aid (FAFSA) for the {{ year }}-{{ year2 }} academic year
-                    </text>
+                    </span>
                     {% for e in form.filed_fafsa.errors %}
-                        <text class='error'><b>*{{ e }}</b></text>
+                        <span class='error'><b>*{{ e }}</b></span>
                     {% endfor %}
                 </div>
                 <div>
                     {{ form.understand_conditions }}
                     {{ form.understand_conditions.label }}
                     {% for e in form.understand_conditions.errors %}
-                        <text class='error'><b>*{{ e }}</b></text>
+                        <span class='error'><b>*{{ e }}</b></span>
                     {% endfor %}<br>
                     <ul>
-                        <li>Sign the online Agreement to Serve (ATS) and complete the Federal TEACH Grant Entrance Counseling requirement at <u>https://teach-ats.ed.gov/ats/index.action</u></li>
+                        <li>Sign the online Agreement to Serve (ATS) and complete the Federal TEACH Grant Entrance Counseling requirement at <a href='https://teach-ats.ed.gov/ats/index.action'>https://teach-ats.ed.gov/ats/index.action</a></li>
                         <li>Continue participation as a degree-seeking student in a TEACH Grant-eligible program at Carthage</li>
                         <li>Maintain a 3.25 cumulative GPA each semester of my enrollment in my TEACH Grant-eligible program</li>
                     </ul>

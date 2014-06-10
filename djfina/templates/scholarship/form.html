@@ -5,6 +5,10 @@
     <meta charset='utf-8' />
     <title></title>
     <link rel='stylesheet' type='text/css' href='{{static_url}}djbuis/css/base_css.css'/>
+    <link href="//www.carthage.edu/themes/shared/css/icons.css" type="text/css" rel="stylesheet" />
+    <link href="//www.carthage.edu/static/vendor/dashboard/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//www.carthage.edu/themes/shared/css/forms.css" rel="stylesheet" type="text/css" />
+    <link href="//www.carthage.edu/themes/shared/css/tables.css" rel="stylesheet" type="text/css" />
     <script type='text/javascript'>
     </script>
 </head>
@@ -21,12 +25,12 @@
         </div>
         <div class='mainbar'>
             <div class='header'>
-                <text class='headertext'>Scholarship Form</text>
+                <span class='headertext'>Scholarship Form</span>
             </div><br>
             {{ form.non_field_errors }}
             <form action='' method='post' enctype="multipart/form-data">{% csrf_token %}
                 {{ form.management_form }}
-                <text class='separator'>General information</text><hr>
+                <span class='separator'>General information</span><hr>
                 <p>
                     <b>{{ year }}-{{ year2 }} Private Scholarship Notification</b>
                 </p>
@@ -54,15 +58,15 @@
                     documentation, we cannot add this scholarship to your financial aid award.</b> If you have any 
                     questions, don't hesitate to contact the OSFP at 262-551-6001
                 </p><br>
-                <text class='separator'>Scholarship information</text><hr>
+                <span class='separator'>Scholarship information</span><hr>
                 <table>
                     <tr>
-                        <td><text class='fieldlabel'>Scholarship Name</text></td>
-                        <td><text class='fieldlabel'>Name of Donor<br>or Organization</text></td>
-                        <td><text class='fieldlabel'>Yearly award</text></td>
-                        <td><text class='fieldlabel'>Award is<br>available<br>until</text></td>
-                        <td><text class='fieldlabel'>Funds will<br>be sent to</text></td>
-                        <td><text class='fieldlabel'>File upload</text></td>
+                        <td><span class='fieldlabel'>Scholarship Name</span></td>
+                        <td><span class='fieldlabel'>Name of Donor<br>or Organization</span></td>
+                        <td><span class='fieldlabel'>Yearly award</span></td>
+                        <td><span class='fieldlabel'>Award is<br>available<br>until</span></td>
+                        <td><span class='fieldlabel'>Funds will<br>be sent to</span></td>
+                        <td><span class='fieldlabel'>File upload</span></td>
                        
                     </tr>
                     {% for f in form %}
@@ -77,7 +81,7 @@
                         {% for field in f %}
                         <td>
                             {% for e in field.errors %}
-                                <text class='error'>*{{ e }}</text>
+                                <span class='error'>*{{ e }}</span>
                             {% endfor %}
                         </td>
                         {% endfor %}
