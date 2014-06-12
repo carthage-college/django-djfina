@@ -20,26 +20,6 @@ class TeachGrantForm(forms.ModelForm):
         
     def __init__(self, *args, **kwargs):
         super(TeachGrantForm, self).__init__(*args, **kwargs)
-        
-        #Custom labels for form fields
-        #self.fields['gpa_requirements'].label = 'Current status'
-        #self.fields['undergrad_enrolled_in_grant_eligible_program'].label = mark_safe("Undergraduate enrolled in a grant-eligible program")
-        #self.fields['grad_enrolled_in_grant_eligible_program'].label = mark_safe('Graduate enrolled in a grant-eligible program')
-        #self.fields['filed_fafsa'].label = 'I agree with the FAFSA conditions'
-        #self.fields['understand_conditions'].label = 'I understand that if I am awarded a Federal TEACH Grant, I must do the following'
-        #self.fields['file'].label = 'File'
-        
-        #Custom regex validation for form fields
-        #self.fields['student_name'].validators = [validators.RegexValidator(regex='^[a-zA-Z\']+[a-zA-Z\-\s\']+$',message='Invalid characters',code='bad_name')]
-        #self.fields['carthage_id'].validators = [validators.RegexValidator(regex='^\d{5,7}$',message='Invalid ID',code='bad_id')]
-        #self.fields['TEACH_grant_eligible_program_of_study'].validators = [validators.RegexValidator(regex='^.+$', message='Required', code='bad_TEACH')]
-        #self.fields['filed_fafsa'].validators = [must_be_true] #Validation from function on top of file
-        #self.fields['understand_conditions'].validators = [must_be_true]
-        
-        #Custom error messages for form fields
-        #self.fields['carthage_id'].error_messages = {'required':'Required','invalid':'Between 5 and 7 digits'}
-        #self.fields['student_name'].error_messages = {'required':'Required','invalid':'Invalid characters'}
-        #self.fields['TEACH_grant_eligible_program_of_study'].error_messages = {'required':'Required','invalid':'Invalid characters'}
 
     def clean(self):
         cleaned_data = self.cleaned_data #Grabs the clean data
@@ -66,13 +46,13 @@ class TeachGrantForm(forms.ModelForm):
     
     def clean_student_name(self):
         data = self.cleaned_data['student_name']
-        if not re.match(r'^[a-zA-Z\']+[a-zA-Z\-\s\']+$', data):
+        if not re.match(r'^((?:[a-zA-Z]+\s?){1,2}[a-zA-Z]+)$', data):
             raise forms.ValidationError('Invalid characters')
         return data
     
     def clean_carthage_id(self):
         data = self.cleaned_data['carthage_id']
-        if not re.match(r'^\d{5,7}$', data):
+        if not re.match(r'^(\d{5,7})$', data):
             raise forms.ValidationError('Invalid ID')
         return data
     
