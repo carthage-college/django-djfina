@@ -2,9 +2,10 @@ from django.db import models
 
 # Create your models here.
 class TeachGrant(models.Model):
-    student_name = models.CharField(max_length=50)
-    carthage_id = models.CharField(max_length=7)
-    TEACH_grant_eligible_program_of_study = models.CharField(max_length=30)
+    student_name = models.CharField(max_length=50, verbose_name='Student Name')
+    carthage_id = models.CharField(max_length=7, verbose_name='Carthage ID')
+    TEACH_grant_eligible_program_of_study = models.CharField(max_length=30,
+                                                             verbose_name='Indicate your TEACH grant eligible program of study')
     GPA_REQUIREMENT_CHOICES = (
         ('continuing undergrad and grad students', 'Continuing Undergrad And Graduate Students'),
         ('new freshmen students', 'New Freshmen Students'),
