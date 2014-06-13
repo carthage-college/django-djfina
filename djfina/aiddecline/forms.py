@@ -14,12 +14,12 @@ class AidDeclineForm(forms.ModelForm):
     
     def clean_student_id(self):
         data = self.cleaned_data['student_id']
-        if not re.match(r'^\d{5, 7}$', data):
+        if not re.match(r'^(\d{5,7})$', data):
             raise forms.ValidationError("Invalid ID")
         return data
     
     def clean_name(self):
         data = self.cleaned_data['name']
-        if not re.match(r'^[a-zA-Z\']+[a-zA-Z\s\.\-\']+$', data):
+        if not re.match(r'^((?:[a-zA-Z]+\s?){1,2}[a-zA-Z]+)$', data):
             raise forms.ValidationError('Invalid characters')
         return data

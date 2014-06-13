@@ -18,20 +18,20 @@ class ScholarshipForm(forms.ModelForm):
     
     def clean_scholarship_name(self):
         data = self.cleaned_data['scholarship_name']
-        if not re.match(r'^((?:[\w]+\s?)+[\w]+)$', data):
+        if not re.match(r'^((?:[a-zA-Z]+\s?)+[a-zA-Z]+)$', data):
             raise forms.ValidationError('Only use letters, spaces, hypens and numbers')
         return data
         
     def clean_name_of_donor_or_organization(self):
         data = self.cleaned_data['name_of_donor_or_organization']
-        if not re.match(r'^((?:[\w]+\s?)+[\w]+)$', data):
+        if not re.match(r'^((?:[a-zA-Z]+\s?)+[a-zA-Z]+)$', data):
             raise forms.ValidationError('Only use letters, spaces and hypens')
         return data
         
     def clean_yearly_award(self):
         data = self.cleaned_data['yearly_award']
-        if not re.match(r'^\d{1,7}$', data):
-            raise forms.ValidationError('Use only digits (no negatives, < 1,000,000)')
+        if not re.match(r'^(\$?\d{1,3}(?:,?\d{3})*(?:\.\d{2})?|\.\d{2})?$', data):
+            raise forms.ValidationError('Please enter a dollar amount.')
         return data
 
 
