@@ -7,14 +7,13 @@ class TeachGrant(models.Model):
     TEACH_grant_eligible_program_of_study = models.CharField(max_length=30,
                                                              verbose_name='Indicate your TEACH grant eligible program of study')
     GPA_REQUIREMENT_CHOICES = (
-        ('continuing undergrad and grad students', 'Continuing Undergrad And Graduate Students'),
-        ('new freshmen students', 'New Freshmen Students'),
-        ('new undergrad transfer students', 'New Undergrad Transfer Students'),
-        ('new graduate students', 'New Graduate Students'),
+        ('CONT', 'Continuing Undergrad And Graduate Students'),
+        ('NEWF', 'New Freshmen Students'),
+        ('NEWU', 'New Undergrad Transfer Students'),
+        ('NEWG', 'New Graduate Students'),
     )
-    gpa_requirements = models.CharField(max_length=40,
+    gpa_requirements = models.CharField(max_length=4,
                                         choices=GPA_REQUIREMENT_CHOICES,
-                                        default='continuing undergrad and grad students',
                                         verbose_name='Current status')
     
     undergrad_enrolled_in_grant_eligible_program =\

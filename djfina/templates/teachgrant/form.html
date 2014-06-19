@@ -1,6 +1,9 @@
 {% extends "djkorra/base.html" %}
 <!doctype html>
 <html lang='en'>
+    {% block content_head %}
+        <h1 id="page-title">TEACH Grant Form</h1>
+    {% endblock %}
 <head>
     <meta charset='utf-8' />
     <title></title>
@@ -15,7 +18,6 @@
           -webkit-appearance:radio;
         }
     </style>
-    <link rel='stylesheet' type='text/css' href='{{static_url}}djbuis/css/base_css.css'/>
     <link href="//www.carthage.edu/themes/shared/css/icons.css" type="text/css" rel="stylesheet" />
     <link href="//www.carthage.edu/static/vendor/dashboard/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="//www.carthage.edu/themes/shared/css/forms.css" rel="stylesheet" type="text/css" />
@@ -38,102 +40,57 @@
         function validate_TEACH_grant_eligible_program_of_study(){
             var id = document.getElementById('id_TEACH_grant_eligible_program_of_study');
             var val = id.value;
-            var patt = new RegExp('^.+$');
+            var patt = new RegExp('^((?:[a-zA-Z\\s?\\.?]+)[a-zA-Z]+)$');
             return patt.test(val);
         }
-        //set all checks and x's to be invisible till user types something into field
-        document.getElementById('carthage_id_no').style.display='none';
-        document.getElementById('carthage_id_yes').style.display='none';
-        document.getElementById('student_name_no').style.display='none';
-        document.getElementById('student_name_yes').style.display='none';
-        document.getElementById('TEACH_grant_eligible_program_of_study_no').style.display='none';
-        document.getElementById('TEACH_grant_eligible_program_of_study_yes').style.display='none';
     </script>
     {% endblock %}
 </head>
 {% block content %}
 <body>
-    <div>
-        {% if submitted %}
-                <h2>Your form has been submitted, thank you.</h2>
-        {% endif %}
-    </div>
-    <div>
-        <div class='sidebar'>
-            <img src='http://imageshack.us/a/img651/7008/carthage1.png'></img>
-        </div>
-        <div class='mainbar'>
-            <div class='header'>
-                <span class='headertext'>TEACH Grant Form</span>
-            </div><br>
-            {{ form.non_field_errors }}
-            <form action='' method='post'>{% csrf_token %}
-                <span class='separator'>General information</span><hr>
-                <p>
-                    The Federal TEACH Grant has specific eligibility and service requirements. Before completing the TEACH Grant Consideration form, you should visit the Federal TEACH Grant web site at <a href='http://studentaid.ed.gov/PORTALSWebApp/students/english/teach.jsp'>http://studentaid.ed.gov/PORTALSWebApp/students/english/teach.jsp</a>
+    <form action='' method='post' class = "form">{% csrf_token %}
+        {% for field in form.hidden_fields %}
+            {{ field }}
+        {% endfor %}
+       <fieldset class="blockLabels">
+            <legend>TEACH Info</legend>
+            <ol>
+                <li>
+                    The Federal TEACH Grant has specific eligibility and service requirements. Before completing the TEACH Grant Consideration form, you should visit the Federal TEACH Grant web site via <a href='http://studentaid.ed.gov/PORTALSWebApp/students/english/teach.jsp'>this link.</a>
                     If you wish to apply for consideration for this grant, you will need to:
-                    <ul>
+                    <ul class="bullets">
                         <li>Complete a {{ year }}-{{ year2 }} Free Application for Federal Student Aid (FAFSA) at <a href='http://fafsa.ed.gov'>http://fafsa.ed.gov</a> and provide all supporting application materials that may be required while reviewing your FAFSA.</li>
                         <li>Sign the online Agreement to Serve (ATS) and complete the Federal TEACH Grant Entrance Counseling requirement at <a href='https://teach-ats.ed.gov/ats/index.action'>https://teach-ats.ed.gov/ats/index.action</a></li>
                     </ul>
-                </p>
-                <span class='separator'>Personal information</span><hr>
-                <table>
-                    <tr>
-                        <td><span class='fieldlabel'>{{ form.carthage_id.label }}</span></td>
-                        <td>{{ form.carthage_id }}</td>
-                        <td>
-                            <img class='hidden' id='carthage_id_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
-                            <img class='hidden' id='carthage_id_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
-                            {% for e in form.carthage_id.errors %}
-                                <span class='error'>*{{ e }}</span>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class='fieldlabel'>{{ form.student_name.label }}</span></td>
-                        <td>{{ form.student_name }}</td>
-                        <td>
-                            <img class='hidden' id='student_name_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
-                            <img class='hidden' id='student_name_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
-                            {% for e in form.student_name.errors %}
-                                <span class='error'>*{{ e }}</span>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                </table>
-                <table>
-                    <tr>
-                        <td><span class='fieldlabel'>{{ form.TEACH_grant_eligible_program_of_study.label }}</span></td>
-                        <td>{{ form.TEACH_grant_eligible_program_of_study }}</td>
-                        <td>
-                            <img class='hidden' id='TEACH_grant_eligible_program_of_study_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
-                            <img class='hidden' id='TEACH_grant_eligible_program_of_study_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
-                            {% for e in form.TEACH_grant_eligible_program_of_study.errors %}
-                                <span class='error'>*{{ e }}</span>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                </table><br>
-                <span class='separator'>Section 1: GPA Requirement Certification</span><hr>
-                <table>
-                    <tr>
-                        <td><span class='fieldlabel'>{{ form.gpa_requirements.label }}</span></td>
-                        <td>
-                            {% for item in form.gpa_requirements %}
-                                {{ item }}<br>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for e in form.gpa_requirements.errors %}
-                                <span class='error'>*{{ e }}</span>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                </table>
-                <span id='hidden-gpa'>
-                    I certify that I have established a 3.25 overall GPA or higher at Carthage
-                </span><br><br>
+                </li>
+            </ol>
+        </fieldset>
+       <fieldset class="blockLabels">
+            <legend>Area of Study</legend>
+            <ol>
+                <li class="ctrlHolder"><h3><label for="id_TEACH_grant_eligible_program_of_study">Indicate your TEACH grant eligible program of study</label></h3>
+                    <div class="required">
+                        <input id="id_TEACH_grant_eligible_program_of_study" maxlength="100" name="name" type="text" />                        
+                        <img style='display:none;' id='TEACH_grant_eligible_program_of_study_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                        <img style='display:none;' id='TEACH_grant_eligible_program_of_study_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                    </div>
+                </li>
+            </ol>
+        </fieldset>
+       <fieldset class="blockLabels">
+            <legend>Section 1: GPA Requirement Certification</legend>
+            <ol>
+                <li class="ctrlHolder"><h3><label for="id_gpa_requirements_0">Current Status</label></h3>
+                    <ul>
+                        <li><label for="id_gpa_requirements_0"><input id="id_gpa_requirements_0" name="gpa" type="radio" value="CONT" />Continuing Undergrad And Graduate Students</label></li>
+                        <li><label for="id_gpa_requirements_1"><input id="id_gpa_requirements_1" name="gpa" type="radio" value="NEWF" />New Freshmen Students</label></li>
+                        <li><label for="id_gpa_requirements_2"><input id="id_gpa_requirements_2" name="gpa" type="radio" value="NEWU" />New Undergrad Transfer Students</label></li>
+                        <li><label for="id_gpa_requirements_3"><input id="id_gpa_requirements_3" name="gpa" type="radio" value="NEWG" />New Graduate Students</label></li>
+                    </ul>
+                    <div id='hidden-gpa'>
+                        I certify that I have established a 3.25 overall GPA or higher at Carthage
+                    </div>
+                </li>
                 <span class='separator'>Section 2: Program Certification</span><hr>
                 <div id='hidden-undergrad' style='display:none;'> <!-- Needs to be hidden right off the get go -->
                     {{ form.undergrad_enrolled_in_grant_eligible_program }}
@@ -175,9 +132,10 @@
                     </ul>
                 </div><br><br><br>
                 <input type='submit' value='Submit form'/>
-            </form>
-        </div>
-    </div>
+            </ol>
+        </fieldset>
+    </form>
+</body>
     <script type='text/javascript'>
         if( document.getElementsByName('gpa_requirements').value == 'continuing undergrad and grad students' ){
             document.getElementById('hidden-undergrad').style.display = 'table-row';
@@ -185,7 +143,7 @@
             //If the top select option is selected, the only checkbox that will pop up is the undergrad box
         }
         else if( document.getElementsByName('gpa_requirements').value == 'new freshmen students' ||
-                 document.getElementsByName('gpa_requirements').value == 'new undergrad transfer students' ){   
+                document.getElementsByName('gpa_requirements').value == 'new undergrad transfer students' ){   
             document.getElementById('hidden-undergrad').style.display = 'table-row';
             document.getElementById('hidden-grad').style.display = 'none';
         }
@@ -193,9 +151,7 @@
             document.getElementById('hidden-undergrad').style.display = 'none';
             document.getElementById('hidden-grad').style.display = 'table-row';
         }
-    </script>    
-</body>
-    <script type='text/javascript'>
+        
         var element = document.getElementsByName('gpa_requirements');
         for (var i = 0; i < element.length; i++)
         {
@@ -229,30 +185,11 @@
                     gpa.innerText = 'I certify that I have established a 3.25 overall GPA in my previous undergraduate coursework'
                 }
             };
-        }
+        }        
+        //set all checks and x's to be invisible till user types something into field
+        document.getElementById('TEACH_grant_eligible_program_of_study_no').style.display='none';
+        document.getElementById('TEACH_grant_eligible_program_of_study_yes').style.display='none';
         //functions that validate fields and show images for ok or bad data
-        element = document.getElementById('id_carthage_id');
-        element.onblur = function() {
-            var n=document.getElementById('carthage_id_no');
-            var y=document.getElementById('carthage_id_yes');
-            if(!validate_carthage_id()){ 
-                n.style.display='inline'; y.style.display='none'; 
-            }
-            else {
-                n.style.display='none'; y.style.display='inline';
-            }
-        };
-        element = document.getElementById('id_student_name');
-        element.onblur = function() {
-            var n=document.getElementById('student_name_no');
-            var y=document.getElementById('student_name_yes');
-            if(!validate_student_name()){ 
-                n.style.display='inline'; y.style.display='none'; 
-            }
-            else {
-                n.style.display='none'; y.style.display='inline';
-            }
-        };
         element = document.getElementById('id_TEACH_grant_eligible_program_of_study');
         element.onblur = function() {
             var n=document.getElementById('TEACH_grant_eligible_program_of_study_no');

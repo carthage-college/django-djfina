@@ -1,6 +1,9 @@
 {% extends "djkorra/base.html" %}
 <!doctype html>
 <html lang='en'>
+    {% block content_head %}
+        <h1 id="page-title">Decline Financial Aid</h1>
+    {% endblock %}
 <head>
     <meta charset='utf-8' />
     <title></title>
@@ -11,172 +14,142 @@
           -webkit-appearance:checkbox;
         }
     </style>
-    <link rel='stylesheet' type='text/css' href='{{static_url}}djbuis/css/base_css.css'/>
     <link href="//www.carthage.edu/themes/shared/css/icons.css" type="text/css" rel="stylesheet" />
     <link href="//www.carthage.edu/static/vendor/dashboard/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="//www.carthage.edu/themes/shared/css/forms.css" rel="stylesheet" type="text/css" />
     <link href="//www.carthage.edu/themes/shared/css/tables.css" rel="stylesheet" type="text/css" />
     {% endblock %}
+    
 {% block javascript %}
-    <script type='text/javascript'>
-        function validate_name(){
-            var id = document.getElementById('id_name');
-            var val = id.value;
-            var patt = new RegExp('^((?:[a-zA-Z]+\\s?){1,2}[a-zA-Z]+)$');
-            return patt.test(val);
+    <script type="text/javascript">
+    $(document).ready(function () {
+        // Code adapted from http://djangosnippets.org/snippets/1389/  
+        function updateElementIndex(el, prefix, ndx) {
+            var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+            var replacement = prefix + '-' + ndx + '-';
+            if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+            replacement));
+            if (el.id) el.id = el.id.replace(id_regex, replacement);
+            if (el.name) el.name = el.name.replace(id_regex, replacement);
         }
-        function validate_student_id(){
-            var id = document.getElementById('id_student_id');
-            var val = id.value;
-            var patt = new RegExp('^\\d{5,7}$');
-            return patt.test(val);
+    
+        function deleteForm(btn, prefix) {
+            var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+            if (formCount > 1) {
+                // Delete the item/form
+                $(btn).parents('.otherstuff').remove();
+                var forms = $('.otherstuff'); // Get all the forms  
+                // Update the total number of forms (1 less than before)
+                $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+                var i = 0;
+                // Go through the forms and set their indices, names and IDs
+                for (formCount = forms.length; i < formCount; i++) {
+                    $(forms.get(i)).children().children().each(function () {
+                        if ($(this).attr('type') == 'text') updateElementIndex(this, prefix, i);
+                    });
+                }
+            } // End if
+            else{
+                alert("This field cannot be deleted. If you don't have any other aid to decline, simply leave it blank.")
+            }
+            return false;
         }
-        
-
+    
+        function addForm(btn, prefix) {
+            var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+            //THE LINE BELOW CONTROLS THE MAXIMUM NUMBER OF ADDITIONAL FIELDS
+            if (formCount < 10) {
+                // Clone a form (without event handlers) from the first form
+                var row = $(".otherstuff:first").clone(false).get(0);
+                // Insert it after the last form
+                $(row).removeAttr('id').hide().insertAfter(".otherstuff:last").slideDown(300);
+    
+                // Remove the bits we don't want in the new row/form
+                // e.g. error messages
+                $(".errorlist", row).remove();
+                $(row).children().removeClass("error");
+    
+                // Relabel or rename all the relevant bits
+                $(row).children().children().each(function () {
+                    updateElementIndex(this, prefix, formCount);
+                    $(this).val("");
+                });
+    
+                // Add an event handler for the delete item/form link 
+                $(row).find(".delete").click(function () {
+                    return deleteForm(this, prefix);
+                });
+                // Update the total form count
+                $("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+            } // End if
+            else {
+                alert("Sorry, you can only add a maximum of 10 other forms of aid.");
+            }
+            return false;
+        }
+        // Register the click event handlers
+        $("#add").click(function () {
+            return addForm(this, "other");
+        });
+    
+        $(".delete").click(function () {
+            return deleteForm(this, "other")
+        });
+    });
     </script>
-{% endblock %}
+    {% endblock %}
 </head>
 {% block content %}
 <body>
-
-    <div>
-        {% if submitted %}
-                <h2>Your form has been submitted, thank you.</h2>
-        {% endif %}
-    </div>
-    <div>
-        <div class='sidebar'>
-            <img src='http://imageshack.us/a/img651/7008/carthage1.png'></img>
-        </div>
-        <div class='mainbar'>
-            <div class='header'>
-                <span class='headertext'>Aid Decline Form</span>
-            </div><br>
-            {{ form.non_field_errors }}
-            <form action='' method='post'>{% csrf_token %}
-                    <p>
-                        By filing the Free Application for Federal Student Aid (FAFSA), the student becomes eligible for several different types of self-help aid. For example, the award may contain Federal Stafford or Perkins Loans, and/or Federal Work-Study. The student is not required to accept any of this aid
-                    </p>
-                    <p>
-                        Should the student wish to decline any of the eligible aid, this form should be completed. Alternatively, a student may decide to send an email to <u>finaid@carthage.edu</u> and specify exactly what aid they wish to decline and in what dollar amount. We must recieve this notification in writing and from the student directly as they are the borrower. 
-                        Notification from a parent does not satisfy federal regulations. Should a student decline all or any portion of their federal loans, the student can reinstate the loans at any time before the end of the school year by submitted that request in writing
-                    </p>
-                <span class='separator'>Personal information</span><hr>
-                <table>
-                    <tr>
-                        <td><span class='fieldlabel'>{{ form.student_id.label }}</span></td>
-                        <td>{{ form.student_id }}</td>
-                        <td>
-                            <img class='hidden' id='student_id_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
-                            <img class='hidden' id='student_id_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
-                            {% for e in form.student_id.errors %}
-                                <span class='error'>*{{ e }}</span>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class='fieldlabel'>{{ form.name.label }}</span></td>
-                        <td>{{ form.name }}</td>
-                        <td>
-                            <img class='hidden' id='name_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
-                            <img class='hidden' id='name_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
-                            {% for e in form.name.errors %}
-                                <span class='error'>*{{ e }}</span>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                </table><br>
-                <span class='separator'>Financial declination information<span><hr>
-                <table>
-                    <tr>
-                        <td><span class='fieldlabel'>{{ form.direct_sub.label }}</span></td>
-                        <td>{{ form.direct_sub }}</td>
-                        <td>
-                            {% for e in form.direct_sub.errors %}
-                                <span class='error'>*{{ e }}</span>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class='fieldlabel'>{{ form.direct_unsub.label }}</span></td>
-                        <td>{{ form.direct_unsub }}</td>
-                        <td>
-                            {% for e in form.direct_unsub.errors %}
-                                <span class='error'>*{{ e }}</span>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class='fieldlabel'>{{ form.perkins.label }}</span></td>
-                        <td>{{ form.perkins }}</td>
-                        <td>
-                            {% for e in form.perkins.errors %}
-                                <span class='error'>*{{ e }}</span>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class='fieldlabel'>{{ form.work_study.label }}</span></td>
-                        <td>{{ form.work_study }}</td>
-                        <td>
-                            {% for e in form.work_study.errors %}
-                                <span class='error'>*{{ e }}</span>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                </table>
-                <table>
-                    <tr>
-                        <td><span class='fieldlabel'>{{ form.other1.label }}</span></td>
-                        <td>{{ form.other1 }}</td>
-                        <td>
-                            {% for e in form.other1.errors %}
-                                <span class='error'>*{{ e }}</span>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span class='fieldlabel'>{{ form.other2.label }}</span></td>
-                        <td>{{ form.other2 }}</td>
-                        <td>
-                            {% for e in form.other2.errors %}
-                                <span class='error'>*{{ e }}</span>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                </table><br><br>
-                <input type='submit' value='Submit form'/>
-            </form>
-        </div>
-    </div>
+    <form action='' method='post' class = "form">{% csrf_token %}
+        {% for field in form.hidden_fields %}
+            {{ field }}
+        {% endfor %}
+        <fieldset class="blockLabels">
+            <legend>Declining Aid Info</legend>
+            <ol>
+                <li>
+                    By filing the Free Application for Federal Student Aid (FAFSA), the student becomes eligible for several different types of self-help aid. For example, the award may contain Federal Stafford or Perkins Loans, and/or Federal Work-Study. The student is not required to accept any of this aid.
+                </li>
+                <li>
+                    Should the student wish to decline any of the eligible aid, this form should be completed. Alternatively, a student may decide to send an email to <u>finaid@carthage.edu</u> and specify exactly what aid they wish to decline and in what dollar amount. We must recieve this notification in writing and from the student directly as they are the borrower. 
+                    Notification from a parent does not satisfy federal regulations. Should a student decline all or any portion of their federal loans, the student can reinstate the loans at any time before the end of the school year by submitted that request in writing.
+                </li>
+            </ol>
+        </fieldset>
+        <fieldset class="blockLabels">
+            <legend>Financial Declination Information</legend>
+            <ol>
+                <li class="ctrlHolder"><h3><label for="id_aid_0">What are you requesting?</label></h3>
+                    <ul>
+                        <li><label for="id_aid_0"><input id="id_aid_0" name="aid"
+                            type="checkbox" value="FDLS" />Federal Direct Loan - Subsidized</label></li>
+                        
+                        <li><label for="id_aid_1"><input id="id_aid_1" name="aid"
+                            type="checkbox" value="FDLU" />Federal Direct Loan - Unsubsidized</label></li>
+                        
+                        <li><label for="id_aid_2"><input id="id_aid_2" name="aid"
+                            type="checkbox" value="FPL" />Federal Perkins Loan</label></li>
+                        
+                        <li><label for="id_aid_3"><input id="id_aid_3" name="aid"
+                            type="checkbox" value="WORK" />Federal Work-Study</label></li>
+                    </ul>
+                </li>
+                {{ other_formset.management_form }}
+                {% for form in other_formset.forms %}
+                    <div class = otherstuff>
+                        <li class="ctrlHolder"><h3>{{form}}</h3></li>
+                        <li style=""><a class="delete" href="#">Delete</a></li>
+                    </div>
+                <li><br><a id="add" href="#">Add more aid</a></li>
+                {% endfor %}
+                <li class="btnHolder">
+                    <label for="submit">&nbsp;&nbsp;</label>
+                    <input type="Submit" name="submit" value="Submit" class="button"/>
+                </li>
+            </ol>
+        </fieldset>
+    </form>
 </body>
-    <script type='text/javascript'>
-        document.getElementById('name_no').style.display='none';
-        document.getElementById('name_yes').style.display='none';
-        document.getElementById('student_id_no').style.display='none';
-        document.getElementById('student_id_yes').style.display='none';
-        var element = document.getElementById('id_name');
-        element.onblur = function() {
-            var n=document.getElementById('name_no');
-            var y=document.getElementById('name_yes');
-            if(!validate_name()){ 
-                n.style.display='inline'; y.style.display='none'; 
-            }
-            else {
-                n.style.display='none'; y.style.display='inline';
-            }
-        };
-        var element = document.getElementById('id_student_id');
-        element.onblur = function() {
-            var n=document.getElementById('student_id_no');
-            var y=document.getElementById('student_id_yes');
-            if(!validate_student_id()){ 
-                n.style.display='inline'; y.style.display='none'; 
-            }
-            else {
-                n.style.display='none'; y.style.display='inline';
-            }
-        };
-    </script>
    {% endblock %}
 </html> 
