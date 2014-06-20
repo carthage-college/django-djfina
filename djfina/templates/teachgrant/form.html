@@ -87,72 +87,66 @@
                         <li><label for="id_gpa_requirements_2"><input id="id_gpa_requirements_2" name="gpa" type="radio" value="NEWU" />New Undergrad Transfer Students</label></li>
                         <li><label for="id_gpa_requirements_3"><input id="id_gpa_requirements_3" name="gpa" type="radio" value="NEWG" />New Graduate Students</label></li>
                     </ul>
-                    <div id='hidden-gpa'>
+                    <li id='hidden-gpa'>
                         I certify that I have established a 3.25 overall GPA or higher at Carthage
-                    </div>
+                    </li>
                 </li>
-                <span class='separator'>Section 2: Program Certification</span><hr>
-                <div id='hidden-undergrad' style='display:none;'> <!-- Needs to be hidden right off the get go -->
-                    {{ form.undergrad_enrolled_in_grant_eligible_program }}
-                    <span>
-                        I certify that I am enrolled or accepted for enrollment as a degree-seeking student in a TEACH Grant-eligible program
-                    </span>
-                    {% for e in form.undergrad_enrolled_in_grant_eligible_program.errors %}
-                        <span class='error'>*{{ e }}</span>
-                    {% endfor %}
-                </div>
-                <div id='hidden-grad'>
-                    {{ form.grad_enrolled_in_grant_eligible_program }}
-                    <span>
-                        I certify that I am enrolled or accepted for enrollment as a degree-seeking student in a TEACH Grant-eligible program
-                    </span>
-                    {% for e in form.grad_enrolled_in_grant_eligible_program.errors %}
-                        <span class='error'>*{{ e }}</span>
-                    {% endfor %}
-                </div>
-                <div>
-                    {{ form.filed_fafsa }}
-                    <span>
-                        I filed or will file a Free Application for Federal Student Aid (FAFSA) for the {{ year }}-{{ year2 }} academic year
-                    </span>
-                    {% for e in form.filed_fafsa.errors %}
-                        <span class='error'><b>*{{ e }}</b></span>
-                    {% endfor %}
-                </div>
-                <div>
-                    {{ form.understand_conditions }}
-                    {{ form.understand_conditions.label }}
-                    {% for e in form.understand_conditions.errors %}
-                        <span class='error'><b>*{{ e }}</b></span>
-                    {% endfor %}<br>
-                    <ul>
-                        <li>Sign the online Agreement to Serve (ATS) and complete the Federal TEACH Grant Entrance Counseling requirement at <a href='https://teach-ats.ed.gov/ats/index.action'>https://teach-ats.ed.gov/ats/index.action</a></li>
-                        <li>Continue participation as a degree-seeking student in a TEACH Grant-eligible program at Carthage</li>
-                        <li>Maintain a 3.25 cumulative GPA each semester of my enrollment in my TEACH Grant-eligible program</li>
-                    </ul>
-                </div><br><br><br>
-                <input type='submit' value='Submit form'/>
+            </ol>
+        </fieldset>
+       <fieldset class="blockLabels">
+            <legend>Section 2: Program Certification</legend>
+            <ol>
+                <!-- The next <li> needs to be hidden right off the get go -->
+                <li id='hidden-undergrad' style='display:none;' class='ctrlHolder'><h3>
+                    <label for="id_undergrad_enrolled_in_grant_eligible_program">
+                        <input id="id_undergrad_enrolled_in_grant_eligible_program" name="undergrad" type="checkbox" />
+                        I certify that I am enrolled or accepted for enrollment as a degree-seeking student
+                        in a TEACH Grant-eligible program</label></h3>                        
+                </li>
+                <li id='hidden-grad' class='ctrlHolder'><h3>
+                    <label for="id_grad_enrolled_in_grant_eligible_program">
+                        <input id="id_grad_enrolled_in_grant_eligible_program" name="grad" type="checkbox" />
+                        I certify that I am enrolled or accepted for enrollment as a degree-seeking student
+                        in a TEACH Grant-eligible program</label></h3>                        
+                </li>
+                <li class="ctrlHolder"><h3><label for="id_filed_fafsa"><input id="id_filled_fafsa"
+                    name="fafsa" type="checkbox" />I filed or will file a Free Application for
+                    Federal Student Aid (FAFSA) for the {{ year }}-{{ year2 }} academic year</label></h3>
+                <li>
+                <li class="ctrlHolder"><h3><label for="id_understand_conditions"><input id="id_understand_conditions"
+                    name="understand" type="checkbox" />I understand that if I am awarded a Federal TEACH Grant,
+                    I must do the following
+                    <li><ul class="bullets">
+                            <li>Sign the online Agreement to Serve (ATS) and complete the Federal TEACH Grant Entrance Counseling requirement at <a href='https://teach-ats.ed.gov/ats/index.action'>https://teach-ats.ed.gov/ats/index.action</a></li>
+                            <li>Continue participation as a degree-seeking student in a TEACH Grant-eligible program at Carthage</li>
+                            <li>Maintain a 3.25 cumulative GPA each semester of my enrollment in my TEACH Grant-eligible program</li>
+                        </ul></li>                        
+                    </label></h3>
+                <li class="btnHolder">
+                    <label for="submit">&nbsp;&nbsp;</label>
+                    <input type="Submit" name="submit" value="Submit" class="button"/>
+                </li>
             </ol>
         </fieldset>
     </form>
 </body>
     <script type='text/javascript'>
-        if( document.getElementsByName('gpa_requirements').value == 'continuing undergrad and grad students' ){
-            document.getElementById('hidden-undergrad').style.display = 'table-row';
+        if( document.getElementsByName('gpa').value == 'CONT' ){
+            document.getElementById('hidden-undergrad').style.display = 'list-item';
             document.getElementById('hidden-grad').style.display = 'none'; //Hid this
             //If the top select option is selected, the only checkbox that will pop up is the undergrad box
         }
-        else if( document.getElementsByName('gpa_requirements').value == 'new freshmen students' ||
-                document.getElementsByName('gpa_requirements').value == 'new undergrad transfer students' ){   
-            document.getElementById('hidden-undergrad').style.display = 'table-row';
+        else if( document.getElementsByName('gpa').value == 'NEWF' ||
+                document.getElementsByName('gpa').value == 'NEWU' ){   
+            document.getElementById('hidden-undergrad').style.display = 'list-item';
             document.getElementById('hidden-grad').style.display = 'none';
         }
-        else if( document.getElementsByName('gpa_requirements').value == 'new graduate students' ){
+        else if( document.getElementsByName('gpa').value == 'NEWG' ){
             document.getElementById('hidden-undergrad').style.display = 'none';
-            document.getElementById('hidden-grad').style.display = 'table-row';
+            document.getElementById('hidden-grad').style.display = 'list-item';
         }
         
-        var element = document.getElementsByName('gpa_requirements');
+        var element = document.getElementsByName('gpa');
         for (var i = 0; i < element.length; i++)
         {
             element[i].onclick = function() {
@@ -160,27 +154,27 @@
                 var undergrad = document.getElementById('hidden-undergrad'); 
                 var grad = document.getElementById('hidden-grad');
                 var gpa = document.getElementById('hidden-gpa');
-                if (value == "continuing undergrad and grad students"){
-                    undergrad.style.display = 'table-row';
+                if (value == "CONT"){
+                    undergrad.style.display = 'list-item';
                     grad.style.display = 'none'; //Hid this
                     
                     gpa.innerText = 'I certify that I have established a 3.25 overall GPA or higher at Carthage'
                 }
-                else if (value == 'new freshmen students' ||
-                         value == 'new undergrad transfer students' ){
-                    undergrad.style.display = 'table-row';
+                else if (value == 'NEWF' ||
+                         value == 'NEWU' ){
+                    undergrad.style.display = 'list-item';
                     grad.style.display = 'none';
                     
-                    if ( value == 'new freshmen students' ){
+                    if ( value == 'NEWF' ){
                         gpa.innerText = 'I certify that I have scored above the 75th percentile on a college admissions test or maintained a FINAL cumulative high school GPA of at least 3.25'
                     }
                     else{
                         gpa.innerText = 'I certify that I have established a 3.25 overall GPA in my previous undergraduate coursework'
                     }
                 }
-                else if (value == 'new graduate students' ){
+                else if (value == 'NEWG' ){
                     undergrad.style.display = 'none';
-                    grad.style.display = 'table-row';
+                    grad.style.display = 'list-item';
                     
                     gpa.innerText = 'I certify that I have established a 3.25 overall GPA in my previous undergraduate coursework'
                 }
