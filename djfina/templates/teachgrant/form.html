@@ -55,8 +55,7 @@
        <fieldset class="blockLabels">
             <legend>TEACH Info</legend>
             <ol>
-                <li>
-                    The Federal TEACH Grant has specific eligibility and service requirements. Before completing the TEACH Grant Consideration form, you should visit the Federal TEACH Grant web site via <a href='http://studentaid.ed.gov/PORTALSWebApp/students/english/teach.jsp'>this link.</a>
+                <li>The Federal TEACH Grant has specific eligibility and service requirements. Before completing the TEACH Grant Consideration form, you should visit the Federal TEACH Grant web site via <a href='http://studentaid.ed.gov/PORTALSWebApp/students/english/teach.jsp'>this link.</a>
                     If you wish to apply for consideration for this grant, you will need to:
                     <ul class="bullets">
                         <li>Complete a {{ year }}-{{ year2 }} Free Application for Federal Student Aid (FAFSA) at <a href='http://fafsa.ed.gov'>http://fafsa.ed.gov</a> and provide all supporting application materials that may be required while reviewing your FAFSA.</li>
@@ -133,7 +132,7 @@
     <script type='text/javascript'>
         if( document.getElementsByName('gpa').value == 'CONT' ){
             document.getElementById('hidden-undergrad').style.display = 'list-item';
-            document.getElementById('hidden-grad').style.display = 'none'; //Hid this
+            document.getElementById('hidden-grad').style.display = 'none'; //Hide this
             //If the top select option is selected, the only checkbox that will pop up is the undergrad box
         }
         else if( document.getElementsByName('gpa').value == 'NEWF' ||
@@ -156,7 +155,7 @@
                 var gpa = document.getElementById('hidden-gpa');
                 if (value == "CONT"){
                     undergrad.style.display = 'list-item';
-                    grad.style.display = 'none'; //Hid this
+                    grad.style.display = 'none'; //Hide this
                     
                     gpa.innerText = 'I certify that I have established a 3.25 overall GPA or higher at Carthage'
                 }
