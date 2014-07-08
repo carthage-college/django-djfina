@@ -44,7 +44,7 @@
                 }
             } // End if
             else{
-                alert("This field cannot be deleted. If you don't have any other aid to decline, simply leave it blank.")
+                alert("This field cannot be deleted. You must enter at least one scholarship.")
             }
             return false;
         }
@@ -134,8 +134,9 @@
                     <div class = scholarship>
                         <li class="ctrlHolder"><h3>{{form}}</h3></li>
                         <li style=""><a class="delete" href="#">Delete</a></li>
+                        <hr>
                     </div>
-                <li><br><a id="add" href="#">Add another Scholarship</a></li>
+                <li><a id="add" href="#">Add another Scholarship</a></li>
                 {% endfor %}
                 <li class="btnHolder">
                     <label for="submit">&nbsp;&nbsp;</label>
