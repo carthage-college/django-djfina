@@ -19,23 +19,73 @@
 {% endblock %}
 {% block javascript %}
 <script type='text/javascript'>
+    $("img.hidden").css("display", "none");
+    $(document).ready(function () {
+        if( $('[name="gpa"]').val() == 'CONT' ){
+            $('#hidden-undergrad').css("display", 'list-item');
+            $('#hidden-grad').css("display", 'none'); //Hide this
+            //If the top select option is selected, the only checkbox that will pop up is the undergrad box
+        }
+        else if($('[name="gpa"]').val() == 'NEWF' ||
+                $('[name="gpa"]').val() == 'NEWU' ){   
+            $('#hidden-undergrad').css("display", 'list-item');
+            $('#hidden-grad').css("display", 'none');
+        }
+        else if($('[name="gpa"]').val() == 'NEWG' ){
+            $('#hidden-undergrad').css("display", 'none');
+            $('#hidden-grad').css("display", 'list-item');
+        }
+        
+        $("[name='gpa']").click(function() {
+            if (this.value == "CONT"){
+                $('#hidden-undergrad').css("display", 'list-item');
+                $('#hidden-grad').css("display", 'none'); //Hide this
+                
+                $("#hidden-gpa").html(' I certify that I have established a 3.25 overall GPA or higher at Carthage ');
+            }
+            else if (this.value == 'NEWF' ||
+                     this.value == 'NEWU' ){
+                $('#hidden-undergrad').css("display", 'list-item');
+                $('#hidden-grad').css("display", 'none');
+                
+                if (this.value == 'NEWF' ){
+                    $("#hidden-gpa").html(' I certify that I have scored above the 75th percentile on a college admissions test or maintained a FINAL cumulative high school GPA of at least 3.25 ')
+                }
+                else{
+                    $("#hidden-gpa").html(' I certify that I have established a 3.25 overall GPA in my previous undergraduate coursework ');
+                }
+            }
+            else if (this.value == 'NEWG' ){
+                $('#hidden-undergrad').css("display", 'none');
+                $('#hidden-grad').css("display", 'list-item');
+                
+                $("#hidden-gpa").html(' I certify that I have established a 3.25 overall GPA in my previous undergraduate coursework ');
+            }
+        });
+    });
+    //set all checks and x's to be invisible till user types something into field
+    //functions that validate fields and show images for ok or bad data
+    $('#id_TEACH_grant_eligible_program_of_study').change(function() {
+        if(!validate_TEACH_grant_eligible_program_of_study()){ 
+            $('#TEACH_grant_eligible_program_of_study_no').css("display", "inline");
+            $('#TEACH_grant_eligible_program_of_study_yes').css("display", "none");
+        }
+        else {
+            $('#TEACH_grant_eligible_program_of_study_no').css("display", "none");
+            $('#TEACH_grant_eligible_program_of_study_yes').css("display", "inline");
+        }
+    });
     function validate_carthage_id(){
-        var id = document.getElementById('id_carthage_id');
-        var val = id.value;
         var patt = new RegExp('^(\\d{5,7})$');
-        return patt.test(val);
+        return patt.test($("#id_carthage_id").val());
     }
     function validate_student_name(){
-        var id = document.getElementById('id_student_name');
-        var val = id.value;
         var patt = new RegExp('^((?:[a-zA-Z]+\\s?){1,2}[a-zA-Z]+)$');
-        return patt.test(val);
+        return patt.test($("#id_student_name").val());
     }
     function validate_TEACH_grant_eligible_program_of_study(){
-        var id = document.getElementById('id_TEACH_grant_eligible_program_of_study');
-        var val = id.value;
         var patt = new RegExp('^((?:[a-zA-Z\\s?\\.?]+)[a-zA-Z]+)$');
-        return patt.test(val);
+        return patt.test($("#id_TEACH_grant_eligible_program_of_study").val());
     }
 </script>
 {% endblock %}
@@ -122,70 +172,4 @@
         </ol>
     </fieldset>
 </form>
-<script type='text/javascript'>
-    if( document.getElementsByName('gpa').value == 'CONT' ){
-        document.getElementById('hidden-undergrad').style.display = 'list-item';
-        document.getElementById('hidden-grad').style.display = 'none'; //Hide this
-        //If the top select option is selected, the only checkbox that will pop up is the undergrad box
-    }
-    else if( document.getElementsByName('gpa').value == 'NEWF' ||
-            document.getElementsByName('gpa').value == 'NEWU' ){   
-        document.getElementById('hidden-undergrad').style.display = 'list-item';
-        document.getElementById('hidden-grad').style.display = 'none';
-    }
-    else if( document.getElementsByName('gpa').value == 'NEWG' ){
-        document.getElementById('hidden-undergrad').style.display = 'none';
-        document.getElementById('hidden-grad').style.display = 'list-item';
-    }
-    
-    var element = document.getElementsByName('gpa');
-    for (var i = 0; i < element.length; i++)
-    {
-        element[i].onclick = function() {
-            var value = this.value;
-            var undergrad = document.getElementById('hidden-undergrad'); 
-            var grad = document.getElementById('hidden-grad');
-            var gpa = document.getElementById('hidden-gpa');
-            if (value == "CONT"){
-                undergrad.style.display = 'list-item';
-                grad.style.display = 'none'; //Hide this
-                
-                gpa.innerText = 'I certify that I have established a 3.25 overall GPA or higher at Carthage'
-            }
-            else if (value == 'NEWF' ||
-                     value == 'NEWU' ){
-                undergrad.style.display = 'list-item';
-                grad.style.display = 'none';
-                
-                if ( value == 'NEWF' ){
-                    gpa.innerText = 'I certify that I have scored above the 75th percentile on a college admissions test or maintained a FINAL cumulative high school GPA of at least 3.25'
-                }
-                else{
-                    gpa.innerText = 'I certify that I have established a 3.25 overall GPA in my previous undergraduate coursework'
-                }
-            }
-            else if (value == 'NEWG' ){
-                undergrad.style.display = 'none';
-                grad.style.display = 'list-item';
-                
-                gpa.innerText = 'I certify that I have established a 3.25 overall GPA in my previous undergraduate coursework'
-            }
-        };
-    }        
-    //set all checks and x's to be invisible till user types something into field
-    document.getElementById('TEACH_grant_eligible_program_of_study_no').style.display='none';
-    document.getElementById('TEACH_grant_eligible_program_of_study_yes').style.display='none';
-    //functions that validate fields and show images for ok or bad data
-    element = document.getElementById('id_TEACH_grant_eligible_program_of_study');
-    element.onblur = function() {
-        var n=document.getElementById('TEACH_grant_eligible_program_of_study_no');
-        var y=document.getElementById('TEACH_grant_eligible_program_of_study_yes');
-        if(!validate_TEACH_grant_eligible_program_of_study()){ 
-            n.style.display='inline'; y.style.display='none'; 
-        }
-        else {
-            n.style.display='none'; y.style.display='inline';
-        }
-    };
-</script>
 {% endblock %}
