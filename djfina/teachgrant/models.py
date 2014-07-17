@@ -4,7 +4,7 @@ from django.db import models
 class TeachGrant(models.Model):
     student_name = models.CharField(max_length=50, verbose_name='Student Name')
     carthage_id = models.CharField(max_length=7, verbose_name='Carthage ID')
-    TEACH_grant_eligible_program_of_study = models.CharField(max_length=30,
+    program = models.CharField(max_length=30,
                                                              verbose_name='Indicate your TEACH grant eligible program of study')
     GPA_REQUIREMENT_CHOICES = (
         ('CONT', 'Continuing Undergrad And Graduate Students'),
@@ -16,11 +16,9 @@ class TeachGrant(models.Model):
                                         choices=GPA_REQUIREMENT_CHOICES,
                                         verbose_name='Current status')
     
-    undergrad_enrolled_in_grant_eligible_program =\
-    models.BooleanField(verbose_name="Undergraduate enrolled in a grant-eligible program")
+    undergrad_eligible = models.BooleanField(verbose_name="Undergraduate enrolled in a grant-eligible program")
     
-    grad_enrolled_in_grant_eligible_program =\
-    models.BooleanField(verbose_name='Graduate enrolled in a grant-eligible program')
+    grad_eligible = models.BooleanField(verbose_name='Graduate enrolled in a grant-eligible program')
     
     filed_fafsa = models.BooleanField(verbose_name='I agree with the FAFSA conditions')
     

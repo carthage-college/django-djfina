@@ -65,14 +65,14 @@
     });
     //set all checks and x's to be invisible till user types something into field
     //functions that validate fields and show images for ok or bad data
-    $('#id_TEACH_grant_eligible_program_of_study').change(function() {
-        if(!validate_TEACH_grant_eligible_program_of_study()){ 
-            $('#TEACH_grant_eligible_program_of_study_no').css("display", "inline");
-            $('#TEACH_grant_eligible_program_of_study_yes').css("display", "none");
+    $('#id_program').change(function() {
+        if(!validate_program()){ 
+            $('#program_no').css("display", "inline");
+            $('#program_yes').css("display", "none");
         }
         else {
-            $('#TEACH_grant_eligible_program_of_study_no').css("display", "none");
-            $('#TEACH_grant_eligible_program_of_study_yes').css("display", "inline");
+            $('#program_no').css("display", "none");
+            $('#program_yes').css("display", "inline");
         }
     });
     function validate_carthage_id(){
@@ -83,9 +83,9 @@
         var patt = new RegExp('^((?:[a-zA-Z]+\\s?){1,2}[a-zA-Z]+)$');
         return patt.test($("#id_student_name").val());
     }
-    function validate_TEACH_grant_eligible_program_of_study(){
+    function validate_program(){
         var patt = new RegExp('^((?:[a-zA-Z\\s?\\.?]+)[a-zA-Z]+)$');
-        return patt.test($("#id_TEACH_grant_eligible_program_of_study").val());
+        return patt.test($("#id_program").val());
     }
 </script>
 {% endblock %}
@@ -111,11 +111,12 @@
    <fieldset class="blockLabels">
         <legend>Area of Study</legend>
         <ol>
-            <li class="ctrlHolder"><h3><label for="id_TEACH_grant_eligible_program_of_study">Indicate your TEACH grant eligible program of study</label></h3>
+            <li class="ctrlHolder"><h3><label for="id_program">Indicate your TEACH grant eligible program of study</label></h3>
                 <div class="required">
-                    <input id="id_TEACH_grant_eligible_program_of_study" maxlength="100" name="name" type="text" />                        
-                    <img style='display:none;' id='TEACH_grant_eligible_program_of_study_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
-                    <img style='display:none;' id='TEACH_grant_eligible_program_of_study_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
+                    {{form.program}}
+                    {{form.program.errors}}
+                    <img style='display:none;' id='program_yes' src='http://imageshack.us/a/img716/1391/htj.png'></img>
+                    <img style='display:none;' id='program_no' src='http://imageshack.us/a/img855/1123/ytjo.png'></img>
                 </div>
             </li>
         </ol>
@@ -130,6 +131,7 @@
                     <li><label for="id_gpa_requirements_2"><input id="id_gpa_requirements_2" name="gpa" type="radio" value="NEWU" />New Undergrad Transfer Students</label></li>
                     <li><label for="id_gpa_requirements_3"><input id="id_gpa_requirements_3" name="gpa" type="radio" value="NEWG" />New Graduate Students</label></li>
                 </ul>
+                {{form.gpa_requirements.errors}}
                 <li id='hidden-gpa'>
                     I certify that I have established a 3.25 overall GPA or higher at Carthage
                 </li>
@@ -141,24 +143,25 @@
         <ol>
             <!-- The next <li> needs to be hidden right off the get go -->
             <li id='hidden-undergrad' style='display:none;' class='ctrlHolder'><h3>
-                <label for="id_undergrad_enrolled_in_grant_eligible_program">
-                    <input id="id_undergrad_enrolled_in_grant_eligible_program" name="undergrad" type="checkbox" />
+                <label for="id_undergrad_eligible">
+                    {{form.undergrad_eligible}}
+                    {{form.undergrad_elligible.errors}}
                     I certify that I am enrolled or accepted for enrollment as a degree-seeking student
                     in a TEACH Grant-eligible program</label></h3>                        
             </li>
             <li id='hidden-grad' class='ctrlHolder'><h3>
-                <label for="id_grad_enrolled_in_grant_eligible_program">
-                    <input id="id_grad_enrolled_in_grant_eligible_program" name="grad" type="checkbox" />
+                <label for="id_grad_eligible">
+                    {{form.grad_eligible}}
+                    {{form.grad_eligible.errors}}
                     I certify that I am enrolled or accepted for enrollment as a degree-seeking student
                     in a TEACH Grant-eligible program</label></h3>                        
             </li>
-            <li class="ctrlHolder"><h3><label for="id_filed_fafsa"><input id="id_filled_fafsa"
-                name="fafsa" type="checkbox" />I filed or will file a Free Application for
-                Federal Student Aid (FAFSA) for the {{ year }}-{{ year2 }} academic year</label></h3>
+            <li class="ctrlHolder"><h3><label for="id_filed_fafsa">{{form.filled_fafsa}}{{form.filled_fafsa.errors}}
+                I filed or will file a Free Application for Federal Student Aid (FAFSA) for the {{ year }}-{{ year2 }}
+                academic year</label></h3>
             <li>
-            <li class="ctrlHolder"><h3><label for="id_understand_conditions"><input id="id_understand_conditions"
-                name="understand" type="checkbox" />I understand that if I am awarded a Federal TEACH Grant,
-                I must do the following
+            <li class="ctrlHolder"><h3><label for="id_understand_conditions">{{form.understand_conditions}}{{form.understand_conditions.errors}}
+                I understand that if I am awarded a Federal TEACH Grant, I must do the following
                 <li><ul class="bullets">
                         <li>Sign the online Agreement to Serve (ATS) and complete the Federal TEACH Grant Entrance Counseling requirement at <a href='https://teach-ats.ed.gov/ats/index.action'>https://teach-ats.ed.gov/ats/index.action</a></li>
                         <li>Continue participation as a degree-seeking student in a TEACH Grant-eligible program at Carthage</li>

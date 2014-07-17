@@ -126,6 +126,7 @@ $(document).ready(function () {
                     <li><label for="id_aid_3"><input id="id_aid_3" name="aid"
                         type="checkbox" value="WORK" />Federal Work-Study</label></li>
                 </ul>
+                {{form.aid.errors}}
             </li>
             {{ other_formset.management_form }}
             {% for form in other_formset.forms %}
@@ -133,6 +134,7 @@ $(document).ready(function () {
                     <li class="ctrlHolder"><h3>{{form}}</h3></li>
                     <li style=""><a class="delete" href="#">Delete</a></li>
                 </div>
+                {{form.errors}}
             <li><br><a id="add" href="#">Add more aid</a></li>
             {% endfor %}
             <li class="btnHolder">
